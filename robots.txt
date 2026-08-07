@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sanzony.com.br/difusor-lab/sitemap.xml

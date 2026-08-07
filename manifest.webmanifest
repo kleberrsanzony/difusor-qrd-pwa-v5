@@ -1,0 +1,17 @@
+{
+  "name": "Difusor Lab — Calculadora QRD",
+  "short_name": "Difusor Lab",
+  "description": "Calculadora de difusores acústicos com mapa, materiais, plano de corte e PDF paginado.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07101d",
+  "theme_color": "#0b1220",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg",    "sizes": "any",       "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
+

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="description" content="Calculadora de difusores acústicos Skyline e QRD com mapa, materiais, plano de corte e exportação PDF." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <!-- Inter via Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Difusor Lab — Calculadora QRD</title>
+</head>
+<body>
+  <header class="topbar screen-only">
+    <div>
+      <p class="eyebrow">SANZONY AUDIO TOOLS</p>
+      <h1>Difusor Lab</h1>
+      <p>Calcule dimensões, peças e cortes sem sofrer com fórmulas.</p>
+    </div>
+    <button id="installBtn" class="ghost" hidden aria-label="Instalar Difusor Lab como aplicativo">Instalar app</button>
+  </header>
+
+  <main class="shell screen-only">
+    <section class="card controls">
+      <div class="section-title">
+        <div><span>1</span><h2>Configure o difusor</h2></div>
+        <button id="presetBtn" class="small">Usar projeto 46×46</button>
+      </div>
+
+      <label class="auto-fit-option">
+        <input id="autoFit" type="checkbox" checked />
+        <span>
+          <strong>Preencher automaticamente toda a base</strong>
+          <small>Ativado: o tamanho da base determina a quantidade de blocos, o mapa, os materiais e o plano de corte.</small>
+        </span>
+      </label>
+
+      <div class="grid-form">
+        <label>Unidade de medida
+          <select id="unit">
+            <option value="cm">Centímetros (cm)</option>
+            <option value="m">Metros (m)</option>
+          </select>
+          <small>Converte automaticamente todas as medidas lineares do projeto.</small>
+        </label>
+        <label>Tipo de difusor
+          <select id="type">
+            <option value="skyline">Skyline 2D com blocos</option>
+            <option value="qrd1d">QRD 1D com poços</option>
+          </select>
+          <small>Skyline usa blocos salientes. QRD 1D usa poços com divisórias.</small>
+        </label>
+        <label>Sequência N
+          <select id="prime">
+            <option>5</option><option>7</option><option>11</option><option>13</option><option>17</option><option>19</option><option>23</option>
+          </select>
+          <small>Define o tamanho e a variedade do padrão básico.</small>
+        </label>
+        <label>Profundidade máxima <b class="unit-label">(cm)</b>
+          <input id="maxDepth" type="number" min="0.001" step="0.01" value="10" />
+          <small>Comprimento do bloco mais alto, medido para fora da parede.</small>
+        </label>
+
+        <label>Repetições horizontais
+          <input id="repeatX" type="number" min="1" max="50" step="1" value="2" />
+          <small>No modo manual: quantas vezes o módulo N se repete da esquerda para a direita.</small>
+        </label>
+        <label id="repeatYLabel">Repetições verticais
+          <input id="repeatY" type="number" min="1" max="50" step="1" value="2" />
+          <small>No modo manual: quantas vezes o módulo N se repete de cima para baixo.</small>
+        </label>
+        <label>Largura real do bloco <b class="unit-label">(cm)</b>
+          <input id="cellW" type="number" min="0.001" step="0.01" value="4.5" />
+          <small>Meça a face real da madeira. Não confie apenas no nome comercial “5 × 5”.</small>
+        </label>
+        <label>Altura real da face <b class="unit-label">(cm)</b>
+          <input id="cellH" type="number" min="0.001" step="0.01" value="4.5" />
+          <small>Outro lado da face que será colada na base.</small>
+        </label>
+
+        <label>Largura da base <b class="unit-label">(cm)</b>
+          <input id="baseWidth" type="number" min="0.001" step="0.01" value="46" />
+          <small>Tamanho total da placa da esquerda para a direita.</small>
+        </label>
+        <label>Altura da base <b class="unit-label">(cm)</b>
+          <input id="baseHeight" type="number" min="0.001" step="0.01" value="46" />
+          <small>Tamanho total da placa de cima para baixo.</small>
+        </label>
+        <label>Espessura da base (mm)
+          <input id="baseThickness" type="number" min="1" step="1" value="9" />
+          <small>Espessura do compensado ou MDF onde os blocos serão colados.</small>
+        </label>
+        <label>Comprimento do barrote <b class="unit-label">(cm)</b>
+          <input id="stockLength" type="number" min="0.01" step="0.01" value="300" />
+          <small>Comprimento de cada barra comprada. Exemplo: 3 metros = 300 cm.</small>
+        </label>
+
+        <label>Espessura do corte da serra (mm)
+          <input id="kerf" type="number" min="0" step="0.5" value="3" />
+          <small>Madeira perdida pelo disco em cada corte. Normalmente 2 a 4 mm.</small>
+        </label>
+        <label>Margem de segurança (%)
+          <input id="reserve" type="number" min="0" max="50" step="1" value="10" />
+          <small>Acrescenta peças extras para erros, nós ou rachaduras.</small>
+        </label>
+        <label>Velocidade do som (m/s)
+          <input id="soundSpeed" type="number" min="300" max="360" step="1" value="343" />
+          <small>Use 343 na maioria dos casos. Afeta apenas a estimativa acústica.</small>
+        </label>
+      </div>
+
+      <div class="notice" id="technicalNote"></div>
+
+      <details class="help-box">
+        <summary>Como escolher as repetições horizontais e verticais?</summary>
+        <div class="help-content" id="repeatHelp"></div>
+      </details>
+      <details class="help-box">
+        <summary>Como escolher a Sequência N? Qual é melhor?</summary>
+        <div class="help-content" id="sequenceHelp"></div>
+      </details>
+      <details class="help-box">
+        <summary>Entenda a diferença entre base, grade e profundidade</summary>
+        <div class="help-content">
+          <p><strong>Base:</strong> placa inteira de compensado ou MDF que será pendurada.</p>
+          <p><strong>Grade:</strong> área realmente preenchida pelos blocos.</p>
+          <p><strong>Borda livre:</strong> espaço que sobra entre a grade e as extremidades da base.</p>
+          <p><strong>Profundidade:</strong> quanto o maior bloco avança para fora da base.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="results-grid" id="metricsScreen">
+      <article class="metric"><span>Base do painel</span><strong id="panelSize">—</strong><small id="panelSizeNote"></small></article>
+      <article class="metric"><span>Blocos usados no desenho</span><strong id="pieceCount">—</strong><small id="pieceCountNote"></small></article>
+      <article class="metric"><span>Comprimento total dos barrotes</span><strong id="woodTotal">—</strong><small id="woodTotalNote"></small></article>
+      <article class="metric accent"><span>Quantidade para comprar</span><strong id="stockCount">—</strong><small id="stockCountNote"></small></article>
+      <article class="metric"><span>Faixa de atuação estimada</span><strong id="freqRange">—</strong><small>Estimativa teórica, não substitui medição.</small></article>
+      <article class="metric"><span>Peso aproximado do painel</span><strong id="weight">—</strong><small>Usando densidade média de 550 kg/m³.</small></article>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <div><span>2</span><h2>Mapa de montagem</h2></div>
+        <div class="toolbar">
+          <button id="toggleValues" class="small">Mostrar centímetros</button>
+          <button id="printBtn" class="small primary-action">Exportar PDF</button>
+        </div>
+      </div>
+      <div id="legend" class="legend"></div>
+      <div class="map-wrap"><div id="map" class="map" aria-label="Mapa do difusor"></div></div>
+      <p class="hint">No Skyline, “0” é posição vazia. Os demais números representam o comprimento do bloco.</p>
+    </section>
+
+    <section class="two-cols">
+      <article class="card">
+        <div class="section-title"><div><span>3</span><h2>Lista de peças</h2></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Nível</th><th>Comprimento</th><th>Exato</th><th>Com margem</th></tr></thead><tbody id="cutList"></tbody></table></div>
+      </article>
+
+      <article class="card">
+        <div class="section-title"><div><span>4</span><h2>Lista de materiais</h2></div></div>
+        <ul id="materials" class="materials"></ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <div><span>5</span><h2>Plano de corte</h2></div>
+        <button id="copyPlan" class="small">Copiar plano</button>
+      </div>
+      <p class="hint">Cada cartão é um barrote. O cálculo considera a perda da serra e mostra quantas peças saem de cada um.</p>
+      <div id="cutPlan" class="cut-plan"></div>
+    </section>
+
+    <section class="card guide">
+      <div class="section-title"><div><span>6</span><h2>Montagem resumida</h2></div></div>
+      <ol id="assemblySteps">
+        <li>Meça a seção real do barrote; não use somente a medida nominal.</li>
+        <li>Corte e identifique as peças por comprimento antes de colar.</li>
+        <li>Marque a grade na base e faça uma montagem a seco.</li>
+        <li>Cole por linhas, conferindo o mapa a cada peça.</li>
+        <li>Use fixação compatível com o peso calculado.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="screen-only">Difusor Lab funciona offline depois da primeira abertura.</footer>
+
+  <!-- Toast de nova versão — exibido pelo app.js quando o SW notifica SW_UPDATED -->
+  <div id="updateToast" class="update-toast screen-only" hidden role="alert" aria-live="polite" aria-atomic="true">
+    <span>🔄 Nova versão disponível</span>
+    <button id="reloadBtn" class="small">Recarregar</button>
+    <button id="dismissToast" class="ghost" aria-label="Fechar aviso de atualização">✕</button>
+  </div>
+
+  <!-- Documento exclusivo para impressão/PDF. Cada folha é criada pelo JavaScript. -->
+  <div id="printExport" class="print-export" aria-hidden="true"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

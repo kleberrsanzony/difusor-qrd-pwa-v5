@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sanzony.com.br/difusor-lab/sitemap.xml
+Sitemap: https://difusor-qrd-pwa-v5.vercel.app/sitemap.xml

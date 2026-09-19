@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <!-- Atualize a <loc> com a URL real de produção -->
-    <loc>https://sanzony.com.br/difusor-lab/</loc>
-    <lastmod>2026-08-07</lastmod>
+    <loc>https://difusor-qrd-pwa-v5.vercel.app/</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
